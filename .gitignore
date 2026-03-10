@@ -1,0 +1,12 @@
+# Environment
+.env
+__pycache__/
+*.pyc
+
+# Database
+healthcare_chat.db
+
+# uv / venv
+.venv/
+.python-version
+uv.lock

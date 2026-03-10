@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthBot — AI Healthcare Assistant</title>
+    <meta name="description" content="A free AI-powered healthcare chatbot for general health information, wellness tips, and medical guidance.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <span class="logo-icon">🩺</span>
+                <span class="logo-text">HealthBot</span>
+            </div>
+            <button class="new-chat-btn" id="newChatBtn" title="New Chat">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                New Chat
+            </button>
+        </div>
+        <div class="session-list" id="sessionList">
+            <!-- Sessions rendered here -->
+        </div>
+        <div class="sidebar-footer">
+            <span class="disclaimer-small">⚠️ Not a substitute for professional medical advice</span>
+        </div>
+    </aside>
+
+    <!-- Mobile sidebar toggle -->
+    <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+
+    <!-- Main chat area -->
+    <main class="chat-main" id="chatMain">
+        <!-- Welcome screen (shown when no active chat) -->
+        <div class="welcome-screen" id="welcomeScreen">
+            <div class="welcome-content">
+                <div class="welcome-icon">🩺</div>
+                <h1>Welcome to HealthBot</h1>
+                <p>Your AI-powered healthcare assistant. Ask me anything about health, wellness, symptoms, or medical information.</p>
+                <div class="feature-cards">
+                    <div class="feature-card" data-prompt="What are some healthy daily habits I should adopt?">
+                        <span class="feature-icon">🌿</span>
+                        <span>Healthy habits</span>
+                    </div>
+                    <div class="feature-card" data-prompt="I've been feeling stressed lately. Can you suggest some relaxation techniques?">
+                        <span class="feature-icon">🧘</span>
+                        <span>Stress relief</span>
+                    </div>
+                    <div class="feature-card" data-prompt="What are some common symptoms of seasonal allergies?">
+                        <span class="feature-icon">🤧</span>
+                        <span>Allergy symptoms</span>
+                    </div>
+                    <div class="feature-card" data-prompt="Can you explain the importance of staying hydrated?">
+                        <span class="feature-icon">💧</span>
+                        <span>Hydration tips</span>
+                    </div>
+                </div>
+                <p class="disclaimer">⚠️ <strong>Disclaimer:</strong> HealthBot is not a licensed medical professional. Always consult a qualified healthcare provider for medical concerns. In emergencies, call your local emergency services.</p>
+            </div>
+        </div>
+
+        <!-- Chat messages container -->
+        <div class="messages-container" id="messagesContainer" style="display: none;">
+            <div class="messages" id="messages">
+                <!-- Messages rendered here -->
+            </div>
+        </div>
+
+        <!-- Input bar -->
+        <div class="input-bar" id="inputBar">
+            <form class="input-form" id="inputForm">
+                <div class="input-wrapper">
+                    <textarea id="messageInput" placeholder="Ask a health question…" rows="1" autofocus></textarea>
+                    <button type="submit" class="send-btn" id="sendBtn" title="Send message">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
