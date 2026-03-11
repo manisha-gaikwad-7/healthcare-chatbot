@@ -411,9 +411,18 @@ async function handleSend() {
     messageInput.focus();
 }
 
-/* ---------- Markdown Renderer (lightweight) ---------- */
+/* ---------- Markdown Renderer ---------- */
 function renderMarkdown(text) {
     if (!text) return "";
+
+    // Use robust markdown rendering if libraries are loaded
+    if (typeof marked !== 'undefined' && typeof DOMPurify !== 'undefined') {
+        // marked.parse can take strings synchronously in browser contexts without options
+        const rawHtml = marked.parse(text);
+        return DOMPurify.sanitize(rawHtml);
+    }
+
+    // Fallback lightweight renderer
     let html = escapeHtml(text);
 
     // Code blocks (```)
