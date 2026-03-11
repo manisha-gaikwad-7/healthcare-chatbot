@@ -38,31 +38,40 @@
 
     <!-- Main chat area -->
     <main class="chat-main" id="chatMain">
+        <!-- Language switcher -->
+        <div class="lang-bar">
+            <div class="lang-switcher" id="langSwitcher">
+                <button class="lang-btn active" data-lang="en" title="English">EN</button>
+                <button class="lang-btn" data-lang="hi" title="हिंदी">हि</button>
+                <button class="lang-btn" data-lang="mr" title="मराठी">मर</button>
+            </div>
+        </div>
+
         <!-- Welcome screen (shown when no active chat) -->
         <div class="welcome-screen" id="welcomeScreen">
             <div class="welcome-content">
                 <div class="welcome-icon">🩺</div>
-                <h1>Welcome to HealthBot</h1>
-                <p>Your AI-powered healthcare assistant. Ask me anything about health, wellness, symptoms, or medical information.</p>
+                <h1 data-i18n="welcomeTitle">Welcome to HealthBot</h1>
+                <p data-i18n="welcomeSubtitle">Your AI-powered healthcare assistant. Ask me anything about health, wellness, symptoms, or medical information.</p>
                 <div class="feature-cards">
-                    <div class="feature-card" data-prompt="What are some healthy daily habits I should adopt?">
+                    <div class="feature-card" data-prompt-key="healthyHabits">
                         <span class="feature-icon">🌿</span>
-                        <span>Healthy habits</span>
+                        <span data-i18n="cardHealthyHabits">Healthy habits</span>
                     </div>
-                    <div class="feature-card" data-prompt="I've been feeling stressed lately. Can you suggest some relaxation techniques?">
+                    <div class="feature-card" data-prompt-key="stressRelief">
                         <span class="feature-icon">🧘</span>
-                        <span>Stress relief</span>
+                        <span data-i18n="cardStressRelief">Stress relief</span>
                     </div>
-                    <div class="feature-card" data-prompt="What are some common symptoms of seasonal allergies?">
+                    <div class="feature-card" data-prompt-key="allergySymptoms">
                         <span class="feature-icon">🤧</span>
-                        <span>Allergy symptoms</span>
+                        <span data-i18n="cardAllergySymptoms">Allergy symptoms</span>
                     </div>
-                    <div class="feature-card" data-prompt="Can you explain the importance of staying hydrated?">
+                    <div class="feature-card" data-prompt-key="hydrationTips">
                         <span class="feature-icon">💧</span>
-                        <span>Hydration tips</span>
+                        <span data-i18n="cardHydrationTips">Hydration tips</span>
                     </div>
                 </div>
-                <p class="disclaimer">⚠️ <strong>Disclaimer:</strong> HealthBot is not a licensed medical professional. Always consult a qualified healthcare provider for medical concerns. In emergencies, call your local emergency services.</p>
+                <p class="disclaimer" data-i18n="disclaimer">⚠️ <strong>Disclaimer:</strong> HealthBot is not a licensed medical professional. Always consult a qualified healthcare provider for medical concerns. In emergencies, call your local emergency services.</p>
             </div>
         </div>
 
@@ -77,7 +86,7 @@
         <div class="input-bar" id="inputBar">
             <form class="input-form" id="inputForm">
                 <div class="input-wrapper">
-                    <textarea id="messageInput" placeholder="Ask a health question…" rows="1" autofocus></textarea>
+                    <textarea id="messageInput" data-i18n-placeholder="inputPlaceholder" placeholder="Ask a health question…" rows="1" autofocus></textarea>
                     <button type="submit" class="send-btn" id="sendBtn" title="Send message">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
                     </button>
@@ -89,3 +98,4 @@
     <script src="/static/script.js"></script>
 </body>
 </html>
+

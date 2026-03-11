@@ -17,17 +17,83 @@ const API = {
     deleteSession: (id) =>
         fetch(`/api/sessions/${id}`, { method: "DELETE" }).then((r) => r.json()),
 
-    chat: (sessionId, message) =>
+    chat: (sessionId, message, language) =>
         fetch("/api/chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ session_id: sessionId, message }),
+            body: JSON.stringify({ session_id: sessionId, message, language }),
         }),
+};
+
+/* ---------- Translations ---------- */
+const TRANSLATIONS = {
+    en: {
+        welcomeTitle: "Welcome to HealthBot",
+        welcomeSubtitle: "Your AI-powered healthcare assistant. Ask me anything about health, wellness, symptoms, or medical information.",
+        cardHealthyHabits: "Healthy habits",
+        cardStressRelief: "Stress relief",
+        cardAllergySymptoms: "Allergy symptoms",
+        cardHydrationTips: "Hydration tips",
+        disclaimer: '⚠️ <strong>Disclaimer:</strong> HealthBot is not a licensed medical professional. Always consult a qualified healthcare provider for medical concerns. In emergencies, call your local emergency services.',
+        inputPlaceholder: "Ask a health question…",
+        sidebarDisclaimer: "⚠️ Not a substitute for professional medical advice",
+        emptySessionsText: "No conversations yet.<br>Start a new chat!",
+        newChatBtn: "New Chat",
+    },
+    hi: {
+        welcomeTitle: "हेल्थबॉट में आपका स्वागत है",
+        welcomeSubtitle: "आपका AI-संचालित स्वास्थ्य सहायक। स्वास्थ्य, कल्याण, लक्षण या चिकित्सा जानकारी के बारे में कुछ भी पूछें।",
+        cardHealthyHabits: "स्वस्थ आदतें",
+        cardStressRelief: "तनाव मुक्ति",
+        cardAllergySymptoms: "एलर्जी के लक्षण",
+        cardHydrationTips: "हाइड्रेशन टिप्स",
+        disclaimer: '⚠️ <strong>अस्वीकरण:</strong> हेल्थबॉट एक लाइसेंस प्राप्त चिकित्सा पेशेवर नहीं है। चिकित्सा चिंताओं के लिए हमेशा योग्य स्वास्थ्य सेवा प्रदाता से परामर्श करें। आपात स्थिति में, अपनी स्थानीय आपातकालीन सेवाओं को कॉल करें।',
+        inputPlaceholder: "स्वास्थ्य से जुड़ा सवाल पूछें…",
+        sidebarDisclaimer: "⚠️ पेशेवर चिकित्सा सलाह का विकल्प नहीं",
+        emptySessionsText: "अभी तक कोई बातचीत नहीं।<br>नई चैट शुरू करें!",
+        newChatBtn: "नई चैट",
+    },
+    mr: {
+        welcomeTitle: "हेल्थबॉटमध्ये आपले स्वागत आहे",
+        welcomeSubtitle: "तुमचा AI-संचालित आरोग्य सहाय्यक. आरोग्य, निरोगीपणा, लक्षणे किंवा वैद्यकीय माहितीबद्दल काहीही विचारा.",
+        cardHealthyHabits: "निरोगी सवयी",
+        cardStressRelief: "ताण निवारण",
+        cardAllergySymptoms: "ऍलर्जीची लक्षणे",
+        cardHydrationTips: "हायड्रेशन टिप्स",
+        disclaimer: '⚠️ <strong>अस्वीकरण:</strong> हेल्थबॉट परवानाधारक वैद्यकीय व्यावसायिक नाही. वैद्यकीय चिंतांसाठी नेहमी पात्र आरोग्य सेवा प्रदात्याशी सल्लामसलत करा. आणीबाणीच्या परिस्थितीत, तुमच्या स्थानिक आणीबाणी सेवांना कॉल करा.',
+        inputPlaceholder: "आरोग्यविषयक प्रश्न विचारा…",
+        sidebarDisclaimer: "⚠️ व्यावसायिक वैद्यकीय सल्ल्याचा पर्याय नाही",
+        emptySessionsText: "अद्याप कोणतेही संभाषण नाही.<br>नवीन चॅट सुरू करा!",
+        newChatBtn: "नवीन चॅट",
+    },
+};
+
+/* Feature card prompts (always sent in the selected language) */
+const FEATURE_PROMPTS = {
+    en: {
+        healthyHabits: "What are some healthy daily habits I should adopt?",
+        stressRelief: "I've been feeling stressed lately. Can you suggest some relaxation techniques?",
+        allergySymptoms: "What are some common symptoms of seasonal allergies?",
+        hydrationTips: "Can you explain the importance of staying hydrated?",
+    },
+    hi: {
+        healthyHabits: "मुझे कौन सी स्वस्थ दैनिक आदतें अपनानी चाहिए?",
+        stressRelief: "मैं हाल ही में तनाव महसूस कर रहा/रही हूँ। क्या आप कुछ विश्राम तकनीकें सुझा सकते हैं?",
+        allergySymptoms: "मौसमी एलर्जी के सामान्य लक्षण क्या हैं?",
+        hydrationTips: "क्या आप हाइड्रेटेड रहने के महत्व को समझा सकते हैं?",
+    },
+    mr: {
+        healthyHabits: "मी कोणत्या निरोगी दैनंदिन सवयी अंगीकाराव्यात?",
+        stressRelief: "मला अलीकडे ताण जाणवत आहे. तुम्ही काही विश्रांती तंत्रे सुचवू शकता का?",
+        allergySymptoms: "हंगामी ऍलर्जीची सामान्य लक्षणे कोणती आहेत?",
+        hydrationTips: "हायड्रेटेड राहण्याचे महत्त्व तुम्ही समजावून सांगू शकता का?",
+    },
 };
 
 /* ---------- State ---------- */
 let currentSessionId = null;
 let isStreaming = false;
+let currentLanguage = localStorage.getItem("healthbot_lang") || "en";
 
 /* ---------- DOM Refs ---------- */
 const $ = (sel) => document.querySelector(sel);
@@ -41,6 +107,7 @@ const sendBtn = $("#sendBtn");
 const newChatBtn = $("#newChatBtn");
 const sidebarToggle = $("#sidebarToggle");
 const sidebar = $("#sidebar");
+const langSwitcher = $("#langSwitcher");
 
 /* ---------- Initialize ---------- */
 document.addEventListener("DOMContentLoaded", init);
@@ -48,6 +115,46 @@ document.addEventListener("DOMContentLoaded", init);
 async function init() {
     await loadSessions();
     setupEventListeners();
+    applyLanguage(currentLanguage);
+}
+
+/* ---------- Language ---------- */
+function applyLanguage(lang) {
+    currentLanguage = lang;
+    localStorage.setItem("healthbot_lang", lang);
+
+    const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
+
+    // Update data-i18n text elements
+    document.querySelectorAll("[data-i18n]").forEach((el) => {
+        const key = el.dataset.i18n;
+        if (t[key] !== undefined) el.innerHTML = t[key];
+    });
+
+    // Update placeholders
+    document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+        const key = el.dataset.i18nPlaceholder;
+        if (t[key] !== undefined) el.placeholder = t[key];
+    });
+
+    // Sidebar texts
+    const disclaimerSmall = document.querySelector(".disclaimer-small");
+    if (disclaimerSmall) disclaimerSmall.textContent = t.sidebarDisclaimer;
+
+    // New Chat button text
+    const newChatBtnEl = document.getElementById("newChatBtn");
+    if (newChatBtnEl) {
+        // Keep the SVG, replace text node
+        const svg = newChatBtnEl.querySelector("svg");
+        newChatBtnEl.textContent = "";
+        if (svg) newChatBtnEl.prepend(svg);
+        newChatBtnEl.append(" " + t.newChatBtn);
+    }
+
+    // Update active button
+    langSwitcher.querySelectorAll(".lang-btn").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.lang === lang);
+    });
 }
 
 /* ---------- Event Listeners ---------- */
@@ -79,13 +186,23 @@ function setupEventListeners() {
     // Feature card clicks
     document.querySelectorAll(".feature-card").forEach((card) => {
         card.addEventListener("click", async () => {
-            const prompt = card.dataset.prompt;
+            const promptKey = card.dataset.promptKey;
+            const prompts = FEATURE_PROMPTS[currentLanguage] || FEATURE_PROMPTS.en;
+            const prompt = prompts[promptKey];
+            if (!prompt) return;
             if (!currentSessionId) {
                 await createNewSession();
             }
             messageInput.value = prompt;
             handleSend();
         });
+    });
+
+    // Language switcher clicks
+    langSwitcher.addEventListener("click", (e) => {
+        const btn = e.target.closest(".lang-btn");
+        if (!btn) return;
+        applyLanguage(btn.dataset.lang);
     });
 }
 
@@ -96,11 +213,13 @@ async function loadSessions() {
 }
 
 function renderSessions(sessions) {
+    const t = TRANSLATIONS[currentLanguage] || TRANSLATIONS.en;
+
     if (sessions.length === 0) {
         sessionListEl.innerHTML = `
             <div class="empty-sessions">
                 <span>💬</span>
-                <p>No conversations yet.<br>Start a new chat!</p>
+                <p>${t.emptySessionsText}</p>
             </div>`;
         return;
     }
@@ -239,7 +358,7 @@ async function handleSend() {
     appendStreamingMessage();
 
     try {
-        const response = await API.chat(currentSessionId, text);
+        const response = await API.chat(currentSessionId, text, currentLanguage);
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
         let fullText = "";
